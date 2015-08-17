@@ -46,6 +46,8 @@ module Amorail
     end
 
     def post(url, params = {})
+      params['request'].merge!('USER_LOGIN' => Amorail.config.usermail,
+                               'USER_HASH' => Amorail.config.api_key) if params['request'].present?
       response = connect.post(url) do |request|
         request.headers['Cookie'] = cookies if cookies.present?
         request.headers['Content-Type'] = 'application/json'
